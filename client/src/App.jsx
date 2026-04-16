@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Authlayout from "./components/Authlayout";
+import AuthLayout from "./components/AuthLayout";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import EmailVerify from "./pages/EmailVerify";
@@ -78,9 +78,9 @@ function App() {
       path: "/register",
       element: (
         <LoggedInUser>
-          <Authlayout>
+          <AuthLayout>
             <Signup />
-          </Authlayout>
+          </AuthLayout>
         </LoggedInUser>
       ),
     },
@@ -88,26 +88,26 @@ function App() {
       path: "/login",
       element: (
         <LoggedInUser>
-          <Authlayout>
+          <AuthLayout>
             <Login />
-          </Authlayout>
+          </AuthLayout>
         </LoggedInUser>
       ),
     },
     {
       path: "/verify-email",
       element: (
-        <Authlayout>
+        <AuthLayout>
           <EmailVerify />
-        </Authlayout>
+        </AuthLayout>
       ),
     },
     {
       path: "/reset-password",
       element: (
-        <Authlayout>
+        <AuthLayout>
           <ResetPassword />
-        </Authlayout>
+        </AuthLayout>
       ),
     },
   ]);

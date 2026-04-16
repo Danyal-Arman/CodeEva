@@ -287,6 +287,13 @@ export const sendResetPasswordOtp = async (req, res) => {
         message: "User not found",
       });
     }
+    if(user.authProvider === "google"){
+      return res.status(400).json({
+        success: false,
+        message: "You cannot reset password for this account",
+      });
+    }
+
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     user.resetPasswordOtp = otp;
     user.resetPasswordOtpExpireAt = Date.now() + 10 * 60 * 1000;

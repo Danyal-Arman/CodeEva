@@ -1,6 +1,6 @@
 import React from "react";
 
-const Authlayout = ({ children }) => {
+const AuthLayout = ({ children }) => {
   return (
     <>
       <div className="bg-black min-h-screen relative">
@@ -33,4 +33,4 @@ const Authlayout = ({ children }) => {
   );
 };
 
-export default Authlayout;
+export default AuthLayout;

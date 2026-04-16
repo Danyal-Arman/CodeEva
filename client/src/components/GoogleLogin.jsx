@@ -1,5 +1,5 @@
 import React from 'react'
-import googleButtton from '../assets/web_dark_rd_ctn.svg'
+import googleButtton from '../assets/web_dark_sq_ctn.svg'
 import { useGoogleLogin } from '@react-oauth/google'
 import { useGoogleAuthMutation } from '../features/api/authApi'
 import { toast } from 'react-toastify'

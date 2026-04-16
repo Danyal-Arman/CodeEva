@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const FILE_API = "http://localhost:4000/file"
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000"
+
+const FILE_API = `${BASE_URL}/file`
 
 const fileApi = createApi({
     reducerPath: "fileApi",

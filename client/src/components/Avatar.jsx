@@ -23,7 +23,7 @@ const Avatar = ({
         <img
           src={avatar}
           alt="avatar"
-          className={`${isHome? "" : "rounded-full"} w-full h-full object-cover`}
+          className={`${isHome? "" : "rounded-full"} w-full h-full`}
           referrerPolicy="no-referrer"
           onError={() => setImgError(true)}
         />

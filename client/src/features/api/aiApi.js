@@ -1,7 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 
-const AI_API = "http://localhost:4000/ai"
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000"
+
+const AI_API = `${BASE_URL}/ai`
 
 const AIApi = createApi({
     reducerPath: "AIApi",
