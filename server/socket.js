@@ -19,10 +19,10 @@ export default function initSocket(io) {
       const users = await getRoomUsers(roomId, roomPresence);
       io.to(roomId).emit("room-users", users);
     };
-    console.log("✅ [SOCKET CONNECTED] ID:", socket.id);
+    // console.log("✅ [SOCKET CONNECTED] ID:", socket.id);
 
     socket.on("join-room", async ({ roomId, username }) => {
-      console.log("🎉 [JOIN ROOM] ID:", socket.id, "ROOM:", roomId);
+      // console.log("🎉 [JOIN ROOM] ID:", socket.id, "ROOM:", roomId);
       if (!roomId || !socket.user?.id) return;
       try {
         const userId = socket.user.id.toString();
@@ -50,7 +50,7 @@ export default function initSocket(io) {
           }
 
           // 🔄 Different socket → refresh or reconnect
-          console.log("🔄 Replacing old socket for user:", userId);
+          // console.log("🔄 Replacing old socket for user:", userId);
 
           socket.join(roomId);
           socket.emit("room-joined", { roomId, resumed: true });
@@ -61,7 +61,7 @@ export default function initSocket(io) {
         }
 
         // 🆕 Case 2: Truly new join
-        console.log("🆕 User joined room:", roomId, userId);
+        // console.log("🆕 User joined room:", roomId, userId);
 
         // Only now call DB
         await handleJoinRoom(roomId, userId);
@@ -147,7 +147,7 @@ export default function initSocket(io) {
         if (!users) return;
 
         if (users.get(userId) !== socket.id) {
-          console.log("⏩ User reconnected, skipping removal");
+          // console.log("⏩ User reconnected, skipping removal");
           return;
         }
 
@@ -158,7 +158,7 @@ export default function initSocket(io) {
 
         await emitRoomUsers(roomId);
 
-        console.log("👋 User left room:", roomId, userId);
+        // console.log("👋 User left room:", roomId, userId);
       }, 2000);
 
       disconnectTimers.set(`${roomId}-${userId}`, timer);

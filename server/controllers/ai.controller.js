@@ -6,7 +6,6 @@ export const assistantAi = async(req, res) =>{
 try {
     const {entireChatMessages} = req.body;
 
-    console.log(entireChatMessages)
     
     if(!entireChatMessages){
         return res.status(400).json({message: 'Ask something first'})
@@ -16,7 +15,6 @@ try {
     return res.status(200).json({reply: response})
     
 } catch (error) {
-    console.log(error.message)
     return res.status(500).json({
         message:"Internal server error"
     })
@@ -32,7 +30,6 @@ export const aiCodeSummarization = async(req, res)=>{
         return res.status(200).json({reply: result})
 
     } catch (error) {
-          console.log(error.message)
     return res.status(500).json({
         message:"Internal server error"
     })

@@ -4,12 +4,10 @@ export const getRoomUsers = async(roomId, roomPresence)=>{
         const room = await Room.findOne({roomId}).populate('participants.userId', 'createdBy username');
 
 
-        console.log("Room found", !!room)
-        console.log("Room ID RECIEVED", roomId)
+        
         if(!room) return []
 
         const presenceMap = roomPresence.get(roomId) || new Map();
-        console.log("presenceMap",presenceMap)
 
          const users = room.participants.map((p)=>({
              userId:p.userId?._id.toString(),
@@ -17,7 +15,7 @@ export const getRoomUsers = async(roomId, roomPresence)=>{
              role:p.role,
              status:presenceMap.has(p.userId?._id.toString())? "online" : "offline",
         }))
-        console.log("users",users)
+        
         return users  
 } 
 

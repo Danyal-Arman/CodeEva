@@ -11,7 +11,6 @@ import transporter from "../config/nodemailer.js";
 export const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    console.log(username, email, password);
 
     if (!username || !email || !password) {
       return res.status(400).json({
@@ -199,7 +198,6 @@ export const sendVerifyOtp = async (req, res) => {
       message: "Verification OTP has been sent",
     });
   } catch (error) {
-    console.log("hey guys", error.message);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -228,8 +226,7 @@ export const verifyEmail = async (req, res) => {
         message: "User not found",
       });
     }
-    console.log(typeof user.verificationCode);
-    console.log(typeof verificationCode);
+
 
     if (
       user.verificationCode === "" ||
@@ -273,7 +270,6 @@ export const verifyEmail = async (req, res) => {
 export const sendResetPasswordOtp = async (req, res) => {
   try {
     const { email } = req.body;
-    console.log("email:", email);
     if (!email) {
       return res.status(400).json({
         success: false,
@@ -378,8 +374,7 @@ export const resetPassword = async (req, res) => {
   try {
     const { resetToken, newPassword } = req.body;
 
-    console.log("resetToken:", resetToken);
-    console.log("newPassword:", newPassword);
+
     if (!newPassword || !resetToken) {
       return res.status(400).json({
         success: false,
@@ -430,13 +425,11 @@ export const resetPassword = async (req, res) => {
 export const googleAuth = async (req, res) => {
   try {
     let { code } = req.body;
-    console.log("code:", code);
         const userData = await googleAuthService(code);
 
         const { email, name, picture } = userData;
 
 
-        console.log("Google user data:", { email, name, picture });
         let user = await User.findOne({ email });
         if (!user){
          user = await User.create({

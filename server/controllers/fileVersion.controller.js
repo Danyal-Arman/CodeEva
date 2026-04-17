@@ -33,7 +33,6 @@ export const createVersion = async (req, res) => {
 
     const io = req.app.get("io");
     io.to(`${roomId}-${fileId}`).emit("version-created", newFileVersion);
-    console.log(`📤 version-created emitted to ${roomId}-${fileId}`);
 
     return res.status(201).json({
       success: true,
@@ -41,7 +40,6 @@ export const createVersion = async (req, res) => {
       message: "New File version Created successfully",
     });
   } catch (error) {
-    console.log(error.message);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -71,7 +69,6 @@ export const getAllFileVersionsById = async (req, res) => {
       fileVersions: versions,
     });
   } catch (error) {
-    console.log(error.message);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -106,14 +103,12 @@ export const deleteFileByVersionNumber = async (req, res) => {
     }
     const io = req.app.get("io");
     io.to(`${roomId}-${fileId}`).emit("delete-version", fileVersion);
-    console.log(`📤 version-deleted emitted to ${roomId}-${fileId}`);
 
     return res.status(200).json({
       success: true,
       message: `Version number ${versionNumber} deleted successfully`,
     });
   } catch (error) {
-    console.log(error.message);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -157,7 +152,6 @@ export const restoreFileByVersionNumber = async (req, res) => {
       restoreContent: restoreFile.content,
     });
   } catch (error) {
-    console.log(error.message);
     return res.status(500).json({
       success: false,
       message: "Internal server error",

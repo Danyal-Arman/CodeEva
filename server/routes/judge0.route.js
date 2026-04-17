@@ -22,7 +22,6 @@ router.post("/run-code", async(req, res)=>{
         return res.json(response.data)
 
     } catch (error) {
-        console.log(error.message)
         if(error.message === "Request failed with status code 429"){
             return res.status(429).json({
                 message:"You have reached your limit of 50 req/day ha ha"

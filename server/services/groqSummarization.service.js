@@ -43,7 +43,6 @@ Your job is to explain and summarize code, fix code bug if asked or optimized co
         }),
       },
     );
-    console.log("Groq API response status:", response.status, response.body);
     return response.body || "Oops! No response from AI";
 
 

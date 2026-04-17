@@ -7,7 +7,6 @@ export const socketAuth = (io)=>{
     const cookies = cookie.parse(socket.handshake.headers.cookie || "");
     let token = cookies.token;
 
-    // console.log("🔐 Socket auth token:", token);
 
     if (!token) throw new Error("No token provided");
 
@@ -31,7 +30,6 @@ export const socketAuth = (io)=>{
     socket.user = decoded;
     next();
   } catch (err) {
-    console.log("❌ JWT verification failed:", err.message);
     next(new Error("Invalid token"));
   }
 }); 
