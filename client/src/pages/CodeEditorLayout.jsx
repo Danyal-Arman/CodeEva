@@ -268,7 +268,7 @@ const onReceive = useCallback((msg) => {
     setIsTerminalOpen(true);
 
     try {
-      const res = await axios.post("http://localhost:4000/output/run-code", {
+      const res = await axios.post("https://codeeva.onrender.com/output/run-code", {
         source_code: currentCode,
         language_id: languageId,
       });
