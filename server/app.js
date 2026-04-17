@@ -1,4 +1,3 @@
-// 3nPNmV9cyHUPJX3Q
 import express from "express";
 import cors from "cors"
 import connectDB from "./database/connection.js";
@@ -19,7 +18,7 @@ dotenv.config()
 connectDB()  
 
 app.use(cors({
-origin: "https://code-eva.vercel.app/",
+    origin: "https://code-eva.vercel.app/",
     credentials: true,  
 }))  
  

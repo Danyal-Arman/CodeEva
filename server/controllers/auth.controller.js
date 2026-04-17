@@ -52,8 +52,8 @@ export const registerUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "None",
     });
 
     await newUser.save();
@@ -122,8 +122,8 @@ export const loginUser = async (req, res) => {
       .status(200)
       .cookie("token", token, {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: "None",
+        secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .json({
@@ -150,8 +150,8 @@ export const logoutUser = async (req, res) => {
       .status(200)
       .cookie("token", "", {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: "None",
+        secure: true,
       })
       .json({
         success: true,
@@ -447,7 +447,7 @@ export const googleAuth = async (req, res) => {
           httpOnly: true,
           maxAge: 7 * 24 * 60 * 60 * 1000,
           secure: true,
-          sameSite: "strict",
+          sameSite: "None",
         });
 
         const message = user.isNew ? "Account created successfully" : `Welcome back ${user.username}`;
