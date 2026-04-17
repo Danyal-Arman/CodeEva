@@ -40,6 +40,6 @@ const useCollabotiveFiles = ({ fileId, roomId, username }) => {
       socket.off("version-created");
       socket.off("delete-version");
     };
-  }, [roomId, username, fileId]);
+  }, [roomId, username, fileId, socket]);
 };
 export default useCollabotiveFiles;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, Suspense } from "react";
+import React, { useEffect, useState, useRef, useCallback, Suspense } from "react";
 import {
   useCreateVersionMutation,
   useGetFileByIdQuery,
@@ -56,7 +56,6 @@ const CodeEditorLayout = () => {
   const [activePanel, setActivePanel] = useState("users");
   const [isFileSidebarOpen, setIsFileSidebarOpen] = useState(false);
   const [isVersionSidebarOpen, setIsVersionSidebarOpen] = useState(false);
-  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
 
   const [isEditorReady, setIsEditorReady] = useState(false);
@@ -68,7 +67,6 @@ const CodeEditorLayout = () => {
 
   const {isRightCollapsed, rightWidth, toggleRight, startResize} = useResizableLayout() 
 
-  console.log("ISRIGHTCOLLAPSED:", isRightCollapsed, "RIGHTWIDTH:", rightWidth)
 
   const editorRef = useRef(null);
   const socket = getSocket();
@@ -115,7 +113,7 @@ const CodeEditorLayout = () => {
     if (!socket.connected) {
       socket.connect();
     }
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     if (!roomId || !username || !roomData) return;
@@ -125,7 +123,6 @@ const CodeEditorLayout = () => {
     }
 
     const handleConnect = () => {
-      console.log("🔌 Connected → joining room");
 
       socket.emit("join-room", { roomId, username });
     };
@@ -141,7 +138,7 @@ const CodeEditorLayout = () => {
     return () => {
       socket.off("connect", handleConnect);
     };
-  }, [roomId, username, roomData]);
+  }, [roomId, username, roomData, socket]);
 
   useEffect(() => {
     if (editorRef.current) {
@@ -168,7 +165,7 @@ const CodeEditorLayout = () => {
       toast.error(roomError?.data?.message || "Room not found he he");
       navigate("/");
     }
-  }, [roomId, user, roomData, roomError, roomIsLoading]);
+  }, [roomId, user, roomData, roomError, roomIsLoading, navigate]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -178,7 +175,7 @@ const CodeEditorLayout = () => {
     if (error) {
       toast.error(error?.data?.message || "Something went wrong");
     }
-  }, [isSuccess, error]);
+  }, [isSuccess, error, leaveRoomData, navigate]);
 
   useEffect(() => {
     if (!username) return;
@@ -193,7 +190,7 @@ const CodeEditorLayout = () => {
     return () => {
       socket.off("user-joined", handleUserJoined);
     };
-  }, [username]);
+  }, [username, socket]);
 
   useEffect(() => {
     let currentUsername = username;
@@ -208,7 +205,7 @@ const CodeEditorLayout = () => {
     return () => {
       socket.off("user-left-room", handleUserLeft);
     };
-  }, []);
+  }, [username, socket]);
 
   useEffect(() => {
     const handleRoomUsers = (users) => {
@@ -219,7 +216,7 @@ const CodeEditorLayout = () => {
     return () => {
       socket.off("room-users", handleRoomUsers);
     };
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     setCurrentCode("");
@@ -231,12 +228,15 @@ const CodeEditorLayout = () => {
     }
   }, [fileData, isFetching]);
 
+
+const onReceive = useCallback((msg) => {
+  setMessages((prev) => [...prev, msg]);
+}, []);
+
   const { sendMessage } = useChat({
     roomId,
     username,
-    onReceive: (msg) => {
-      setMessages((prev) => [...prev, msg]);
-    },
+    onReceive,
   });
   const languageMap = {
     javascript: 63,
@@ -272,7 +272,7 @@ const CodeEditorLayout = () => {
         source_code: currentCode,
         language_id: languageId,
       });
-      const { stdout, stderr, compile_output, status } = res?.data;
+      const { stdout, stderr, compile_output, status } = res.data;
 
       const result = ` ${stdout ? stdout : ""}  ${stderr ? stderr : ""}  ${compile_output ? "compile Info:" + compile_output : ""}  ${status.description === "Accepted" ? "" : `Status ${status.description}`}  `;
       setOutput(result);

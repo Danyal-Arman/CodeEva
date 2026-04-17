@@ -1,4 +1,3 @@
-import { current } from "@reduxjs/toolkit";
 import { useEffect, useRef } from "react";
 
 const useAIStream = (
@@ -40,7 +39,6 @@ const useAIStream = (
         for (let char of token) {
           if (type === "askAI") {
             setStreamingText((prev) => prev + char);
-            //   console.log("AI TOKEN", char);
           } else {
             setSummarizerStreamingText((prev) => prev + char);
           }
@@ -75,7 +73,6 @@ const useAIStream = (
     const handleSummarizerStream = ({ streamId, token }) => {
       if (streamId !== currentStreamIdRef.current) return;
       queueRef.current.AISummarizer.push(token);
-      console.log("Received summarizer token:", token);
       processQueue("AISummarizer");
     };
 
@@ -91,7 +88,6 @@ const useAIStream = (
     };
 
     const handleSummarizerMessage = (msg) => {
-      console.log("Summarizer Message:", msg);
       setSummarizerMessages((prev) => [...prev, msg]);
     };
     // ✅ register listeners
@@ -108,14 +104,18 @@ const useAIStream = (
 
     // ✅ cleanup (VERY IMPORTANT)
     return () => {
+      socket.off("ai-stream-start", handleAIStreamStart);
       socket.off("ai-stream", handleAIStream);
       socket.off("ai-stream-end", handleAIStreamEnd);
+
+      socket.off("ai-summarizer-stream-start", handleSummarizerStreamStart);
       socket.off("ai-summarizer-stream", handleSummarizerStream);
       socket.off("ai-summarizer-stream-end", handleSummarizerStreamEnd);
+      
       socket.off("receive-ask-ai-message", handleMessage);
       socket.off("receive-ai-summarizer-message", handleSummarizerMessage);
     };
-  }, [socket]);
+  }, [socket, setChatMessages, setSummarizerMessages, setStreamingText, setSummarizerStreamingText]);
 };
 
 export default useAIStream;

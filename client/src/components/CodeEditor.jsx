@@ -41,7 +41,7 @@ const CodeEditor = ({
   const handleEditorDidMount = (editor, monaco) => {
     editorRef.current = editor;
     onEditorReady?.();
-    monaco.editor.defineTheme("vscode-dark-plus", {
+    monaco.editor.defineTheme("vs-dark", {
       base: "vs-dark",
       inherit: true,
       rules: [
@@ -57,7 +57,7 @@ const CodeEditor = ({
       colors: {},
     });
 
-    monaco.editor.setTheme("vscode-dark-plus");
+    monaco.editor.setTheme("vs-dark");
   };
   const localUsername = username;
 
@@ -75,7 +75,6 @@ const CodeEditor = ({
     }) => {
       if (username === localUsername) return;
       if (incomingFileId !== fileId) return;
-      console.log("Incoming update:", { username, position, incomingFileId });
 
       if (editorRef.current && editorRef.current.getValue() !== newCode) {
         const editor = editorRef.current;

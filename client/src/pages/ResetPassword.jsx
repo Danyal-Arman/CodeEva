@@ -33,7 +33,6 @@ const ResetPassword = () => {
 
   const onSubmitEmailHandler = async (e) => {
     e.preventDefault();
-    console.log("email submitted:", email);
     await requestPasswordReset({ email });
   };
 
@@ -58,7 +57,6 @@ const ResetPassword = () => {
   const onSubmitNewPasswordHandler = async (e) => {
     e.preventDefault()
     if(!resetToken) return null;
-    console.log("Submitting new password with resetToken:", resetToken, "and newPassword:", newPassword);
     await resetPassword({ resetToken, newPassword });
   };
   
@@ -82,7 +80,6 @@ const ResetPassword = () => {
   useEffect(()=>{
     if(otpIsSuccess && otpData){
       toast.success(otpData?.message || "OTP verified successfully");
-      console.log("Received resetToken:", otpData?.resetToken);
       setResetToken(otpData?.resetToken);
       setIsOtpSubmittedSuccessfull(true);
   }

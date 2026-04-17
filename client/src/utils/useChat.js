@@ -16,7 +16,7 @@ const useChat = ({ roomId, username, onReceive }) => {
     return () => {
       socket.off("receive-message", handleReceiveMessage);
     };
-  }, [roomId, username]);
+  }, [roomId, username, socket, onReceive]);
 
   const sendMessage = (message) => {
     socket.emit("send-message", {

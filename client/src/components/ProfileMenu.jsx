@@ -29,7 +29,7 @@ const ProfileMenu = ({isHome}) => {
     if (error) {
       toast.error(error.data?.message || "Something went wrong");
     }
-  }, [isSuccess, data, error]);
+  }, [isSuccess, data, error, navigate, setUser]);
 
   return (
     <div className="relative">
@@ -64,7 +64,7 @@ const ProfileMenu = ({isHome}) => {
             />
             <span>{username}</span>
           </div>
-          <div class="border-t border-gray-700 my-2 h-1 w-full"></div>
+          <div className="border-t border-gray-700 my-2 h-1 w-full"></div>
           <nav>
             <ul className="flex flex-col gap-1">
               {!isAccountVerified ? (

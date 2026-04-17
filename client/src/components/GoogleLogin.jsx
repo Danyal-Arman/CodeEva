@@ -21,9 +21,7 @@ const GoogleLogin = () => {
     const responseGoogle = async (authRes) => {
       try {
         if(authRes['code']){
-          const result = await googleAuth(authRes['code']).unwrap()
-          const { email, name, image } = result.data.user
-          console.log("Google login successful:", { email, name, image });
+           await googleAuth(authRes['code']).unwrap()
         }
       } catch (error) {
         console.error("Google login error:", error);
@@ -46,7 +44,7 @@ const GoogleLogin = () => {
             if(error){
               toast.error(error.data?.message || "Google login failed")
             }
-    },[data, isSuccess, error])
+    },[data, isSuccess, error, navigate, from, setUser])
 
   return (
     <div className='w-full flex justify-center items-center'>

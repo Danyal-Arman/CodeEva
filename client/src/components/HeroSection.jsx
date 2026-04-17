@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Play, Zap } from "lucide-react";
-import CollaborativeEditor from "./CollaborativeEditor";
+
 import { useCreateRoomMutation } from "../features/api/roomApi";
 import { useJoinRoomMutation } from "../features/api/roomApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const HeroSection = () => {
   const [roomId, setRoomId] = useState("");
-  const [username, setUsername] = useState("");
-  const [isJoinRoom, setIsJoinRoom] = useState(false);
+  const [setUsername] = useState("");
 
   const navigate = useNavigate();
 
@@ -16,10 +14,8 @@ const HeroSection = () => {
     useCreateRoomMutation();
 
   const [
-    joinRoom,
     {
       data: joinData,
-      isLoading: joinLoading,
       isSuccess: joinSuccess,
       error: joinError,
     },
@@ -27,19 +23,14 @@ const HeroSection = () => {
 
   const handleCreateRoom = async () => {
     const result = await createRoom();
-    console.log(result);
     if (result?.data) {
       const id = result?.data?.room?.roomId;
-      console.log("this is id of actual room", id);
       const name = result?.data?.room?.createdBy?.username;
       setRoomId(id);
       setUsername(name);
     }
   };
-  const handleJoinRoom = async () => {
-    console.log("this is join room id", roomId);
-    await joinRoom({ roomId, username });
-  };
+
 
   useEffect(() => {
     if (isSuccess) {
@@ -53,7 +44,7 @@ const HeroSection = () => {
         navigate("/verify-email", { replace: true });
       }
     }
-  }, [isLoading, isSuccess, error, roomId,  data?.message]);
+  }, [isLoading, isSuccess, error, roomId,  data?.message,  navigate]);
 
   useEffect(() => {
     if (joinSuccess) {
@@ -73,7 +64,7 @@ const HeroSection = () => {
         navigate("/verify-email", { replace: true });
       }
     }
-  }, [joinSuccess, joinError]);
+  }, [joinSuccess, joinError, joinData?.message, roomId, navigate]);
   
   return (
      <section className="relative md:py-32 px-6 bg-[#0f172a] overflow-hidden min-h-screen flex items-center justify-center">

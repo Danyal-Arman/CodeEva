@@ -42,7 +42,7 @@ const Signup = () => {
         toast.error(error.data.message);
       }
     }
-  }, [isSuccess, error, data]);
+  }, [isSuccess, error, data, navigate, setUser, from]);
 
   return (
     <div

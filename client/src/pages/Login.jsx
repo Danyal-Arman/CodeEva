@@ -35,7 +35,7 @@ const Login = () => {
     if (error) {
       toast.error(error.data?.message);
     }
-  }, [isSuccess, error, data]);
+  }, [isSuccess, error, data, setUser, navigate, from]);
 
   return (
     <div className="backdrop-blur-md overflow-hidden h-[100%] text-white relative">

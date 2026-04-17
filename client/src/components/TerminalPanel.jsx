@@ -9,17 +9,14 @@ const TerminalPanel = ({
   isVersionSidebarOpen,
   rightWidth,
 }) => {
-console.log(isSidebarOpen, isFileSidebarOpen, isVersionSidebarOpen)
 
 const getWidth = () =>{
 
   if (isSidebarOpen && !isFileSidebarOpen && !isVersionSidebarOpen) {
-    console.log("when Right side open", `calc(100% - ${rightWidth}px)`);
     return `calc(100% - ${rightWidth}px - 63px)`;
   }
 
   if (isSidebarOpen && (isFileSidebarOpen || isVersionSidebarOpen)) {
-    console.log("when Right side open & left sideOpen", `calc(100% - 703px)`);
     return "calc(100% - 703px)";
 
   }

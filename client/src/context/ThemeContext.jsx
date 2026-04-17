@@ -1,34 +1,31 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 
+const ThemeContext = createContext();
 
-const myThemeContext = createContext();
+const ThemeProvider = ({ children }) => {
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    return localStorage.getItem("theme") || "light";
+  });
 
-const themeProvider = ({ children }) => {
+  const toggleTheme = useCallback(() => {
+    const theme = currentTheme === "dark" ? "light" : "dark";
+    setCurrentTheme(theme);
+    localStorage.setItem("theme", theme);
+  }, [currentTheme]);
 
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", currentTheme === "dark");
+  }, [currentTheme]);
 
-    const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme") || "light")
+  return (
+    <ThemeContext.Provider value={{ currentTheme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
 
-    const toggleTheme = () => {
+export default ThemeProvider;
 
-        const theme = currentTheme === "dark" ? "light" : "dark"
-        setCurrentTheme(theme)
-        localStorage.setItem("theme", theme)
-
-    }
-    useEffect(() => {
-            document.documentElement.classList.toggle("dark", currentTheme === "dark")
-        
-    }, [currentTheme])
-
-    return (
-        <myThemeContext.Provider value={{currentTheme, toggleTheme}}>
-            {children}
-        </myThemeContext.Provider>
-    );
-}
-
-export default themeProvider;
-
-export function useTheme(){
-     return useContext(myThemeContext)
+export function useTheme() {
+  return useContext(ThemeContext);
 }

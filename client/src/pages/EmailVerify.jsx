@@ -51,7 +51,7 @@ const EmailVerify = () => {
       if(isLoggedIn && isAccountVerified) {
        navigate("/")
       }
-  },[isSuccess, error, data, isLoggedIn, isAccountVerified])
+  },[isSuccess, error, data, isLoggedIn, isAccountVerified, navigate, from, refetchUser])
   return (
     <div className="backdrop-blur-md overflow-hidden h-[100%] text-white relative">
       <form

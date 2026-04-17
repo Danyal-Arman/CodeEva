@@ -49,7 +49,7 @@ const useCollaborativeCode = ({
       socket.emit("leave-room", { roomId: prevRoomId });
     }
     prevRoomRef.current = roomId;
-  }, [roomId]);
+  }, [roomId, username, socket]);
 
   useEffect(() => {
     if (!roomId || !fileId || !username) return;
@@ -73,7 +73,7 @@ const useCollaborativeCode = ({
     return () => {
       socket.off("room-joined", handleRoomJoined);
     };
-  }, [roomId, fileId, username]);
+  }, [roomId, fileId, username, socket]);
 
   useEffect(() => {
     if (!roomId || !fileId || !username || !socket.connected) return;
@@ -92,7 +92,7 @@ const useCollaborativeCode = ({
     });
 
     prevFileRef.current = fileId;
-  }, [fileId]);
+  }, [fileId, roomId, username, socket]);
 
   useEffect(() => {
     if (roomId && fileId) {
@@ -112,7 +112,7 @@ const useCollaborativeCode = ({
     return () => {
       debounceRef.current?.cancel();
     };
-  }, [roomId, username, fileId]);
+  }, [roomId, username, fileId, socket]);
 
   const sendCodeUpdate = useCallback((code) => {
     if (debounceRef.current) {
@@ -165,7 +165,7 @@ const useCollaborativeCode = ({
       socket.off("sync-code-request", handleSyncCodeRequest);
       socket.off("sync-code-response", handleInitialCode);
     };
-  }, [roomId, username, onIncomingCodeUpdate, getCurrentCode, editorRef]);
+  }, [roomId, username, onIncomingCodeUpdate, getCurrentCode, fileId, socket]);
 
   return { sendCodeUpdate };
 };

@@ -43,7 +43,7 @@ const Profile = () => {
     if (error) {
       toast.error(error.data?.message || "Something went wrong");
     }
-  }, [isSuccess, error, data]);
+  }, [isSuccess, error, data, setUser, navigate]);
 
   const isLoading =
     isAuthLoading ||

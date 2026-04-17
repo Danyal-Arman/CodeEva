@@ -13,11 +13,6 @@ import ErrorBoundary from "./ErrorBoundary";
 import Navbar from "./components/Navbar";
 import ProfileMenu from "./components/ProfileMenu";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-// import dotenv from "dotenv";
-
-// dotenv.config();
-
-console.log("Google Client ID from env:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
 
 createRoot(document.getElementById("root")).render(
   // <StrictMode>

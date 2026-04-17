@@ -1,9 +1,8 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import AppBootLoader from "./Ui/AppBootLoader";
 
 export const ProtectedRoutes = ({ children }) => {
-  const { user, isAuthLoading } = useAuth();
+  const { user } = useAuth();
   const location = useLocation();
 
   if (!user) {

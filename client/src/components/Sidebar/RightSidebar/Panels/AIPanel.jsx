@@ -21,7 +21,7 @@ import useChatScroll from "../../../../utils/useChatScroll";
 
 const CodeMirror = React.lazy(() => import("@uiw/react-codemirror"));
 
-const AIPanel = ({ editorRef, rightWidth }) => {
+const AIPanel = ({ editorRef }) => {
   const [activeTab, setActiveTab] = useState("chat"); // "chat" or "summarizer"
   const [chatMessages, setChatMessages] = useState([]);
   const [summarizerMessages, setsummarizerMessages] = useState([]);
@@ -77,7 +77,7 @@ const AIPanel = ({ editorRef, rightWidth }) => {
     ) {
       setsummarizerMessages(AISummarizerData?.messages);
     }
-  }, [AISummarizerData]);
+  }, [AISummarizerData, summarizerMessages.length, summarizerStreamingText]);
 
   const isLastMessageAI = chatMessages[chatMessages.length - 1]?.role === "ai";
 
@@ -114,7 +114,6 @@ const AIPanel = ({ editorRef, rightWidth }) => {
     }
   }
 
-  console.log("Grouped Messages:", groupedMessages);
 
   const toggleCollapse = (id) => {
     setCollapsedMessages((prev) => ({
