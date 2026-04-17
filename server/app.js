@@ -18,7 +18,7 @@ dotenv.config()
 connectDB()  
 
 app.use(cors({
-    origin: "https://code-eva.vercel.app/",
+    origin: "https://code-eva.vercel.app",
     credentials: true,  
 }))  
  
