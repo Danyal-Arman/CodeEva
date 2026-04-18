@@ -109,6 +109,9 @@ const CodeEditorLayout = () => {
     await createVersion({ roomId, fileId, content: currentCode });
   };
 
+  const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+
+
   useEffect(() => {
     if (!socket.connected) {
       socket.connect();
@@ -268,7 +271,7 @@ const onReceive = useCallback((msg) => {
     setIsTerminalOpen(true);
 
     try {
-      const res = await axios.post("https://codeeva.onrender.com/output/run-code", {
+      const res = await axios.post(`${BASE_URL}/output/run-code`, {
         source_code: currentCode,
         language_id: languageId,
       });
