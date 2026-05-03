@@ -15,6 +15,7 @@ try {
     return res.status(200).json({reply: response})
     
 } catch (error) {
+    console.error("Error in assistantAi:", error);
     return res.status(500).json({
         message:"Internal server error"
     })
@@ -30,6 +31,7 @@ export const aiCodeSummarization = async(req, res)=>{
         return res.status(200).json({reply: result})
 
     } catch (error) {
+        console.error("Error in aiCodeSummarization:", error);
     return res.status(500).json({
         message:"Internal server error"
     })

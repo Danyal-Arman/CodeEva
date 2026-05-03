@@ -30,6 +30,7 @@ export const socketAuth = (io)=>{
     socket.user = decoded;
     next();
   } catch (err) {
+    console.error("Socket authentication error:", err);
     next(new Error("Invalid token"));
   }
 }); 

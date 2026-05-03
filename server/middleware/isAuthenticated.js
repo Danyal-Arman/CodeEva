@@ -20,6 +20,7 @@ import jwt from "jsonwebtoken";
          next();
         
     } catch (error) {
+        console.error("Error in isAuthenticated:", error);
         return res.status(500).json({
             message:"internal server error"
         })

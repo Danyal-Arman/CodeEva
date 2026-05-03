@@ -34,6 +34,7 @@ export const create = async (req, res) => {
 
     return res.status(201).json(savedFile);
   } catch (error) {
+    console.log("Error in create file/folder:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -67,6 +68,7 @@ export const getFilesByRoom = async (req, res) => {
     const files = await File.find({ room: room._id });
     return res.status(200).json(files);
   } catch (error) {
+      console.log("Error in getFilesByRoom:", error);
     return res.status(500).json({
       message: "Internal server error",
     });
@@ -93,6 +95,7 @@ export const getFileById = async (req, res) => {
       file,
     });
   } catch (error) {
+    console.log("Error in getFileById:", error);
     return res.status(500).json({
       message: "Internal server error",
     });
@@ -116,6 +119,7 @@ export const editFilesOrFolder = async (req, res) => {
     }
     return res.status(200).json(itemUpdated); 
   } catch (error) {
+    console.log("Error in editFilesOrFolder:", error);
     return res.status(500).json({
       message: "Internal server error", 
     });
@@ -142,6 +146,7 @@ export const deleteFilesOrFolderById = async (req, res) => {
       deleteChildItems: deleteChildItems.deletedCount,
     });
   } catch (error) {
+    console.log("Error in deleteFilesOrFolderById:", error);
     return res.status(500).json({
       message: "Internal server error",
     });

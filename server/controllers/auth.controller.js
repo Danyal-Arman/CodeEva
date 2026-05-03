@@ -137,6 +137,7 @@ export const loginUser = async (req, res) => {
         },
       });
   } catch (error) {
+      console.error("Login error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -158,6 +159,7 @@ export const logoutUser = async (req, res) => {
         message: "Logged out successfully",
       });
   } catch (error) {
+      console.error("Logout error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -198,6 +200,7 @@ export const sendVerifyOtp = async (req, res) => {
       message: "Verification OTP has been sent",
     });
   } catch (error) {
+      console.error("Send OTP error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -261,6 +264,7 @@ export const verifyEmail = async (req, res) => {
       }, 
     });
   } catch (error) {
+      console.error("Email verification error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -308,6 +312,7 @@ export const sendResetPasswordOtp = async (req, res) => {
       message: "OTP sent successfully",
     });
   } catch (error) {
+    console.error("Send Reset Password OTP error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -364,6 +369,7 @@ export const verifyResetPasswordOtp = async (req, res) => {
         resetToken,
       })
   } catch (error) {
+    console.error("Verify Reset Password OTP error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -415,6 +421,7 @@ export const resetPassword = async (req, res) => {
       message: "Password reset successfully",
     });
   } catch (error) {
+    console.error("Reset Password error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",

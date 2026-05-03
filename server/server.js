@@ -9,7 +9,7 @@ dotenv.config();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://code-eva.vercel.app",
+    origin: "http://localhost:4000",
     credentials: true,
   },
 });

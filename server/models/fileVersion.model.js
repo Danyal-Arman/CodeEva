@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const fileVersionSchema = new mongoose.Schema({
     file: {

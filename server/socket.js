@@ -181,7 +181,7 @@ export default function initSocket(io) {
       }
     });
 
-    socket.on("ask-ai", async ({ roomId, prompt, code }) => {
+    socket.on("ask-ai", async ({ roomId, prompt }) => {
       try {
         const userId = socket.user.id;
 
@@ -220,7 +220,7 @@ export default function initSocket(io) {
 
         io.to(socket.id).emit("ai-stream-start", { streamId });
 
-       const fullResponse = await streamAI({ stream, socket, streamId, eventName: "ai-stream" });
+       const fullResponse = await streamAI({ stream, socket, streamId, eventName: "ai-stream", io});
 
         const aiMessage = await Message.create({
           message: fullResponse,
@@ -280,7 +280,7 @@ export default function initSocket(io) {
 
         io.to(socket.id).emit("ai-summarizer-stream-start", { streamId });
 
-        const fullResponse = await streamAI({ stream, socket, streamId, eventName: "ai-summarizer-stream" });
+        const fullResponse = await streamAI({ stream, socket, streamId, eventName: "ai-summarizer-stream", io });
 
         const aiMessage = await Message.create({
           message: fullResponse,

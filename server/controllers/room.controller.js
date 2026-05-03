@@ -34,6 +34,7 @@ export const createRoom = async (req, res) => {
       room,
     });
   } catch (error) {
+    console.error("Error in createRoom:", error);
     return res.status(500).json({
       message: "Internal server error",
     });
@@ -66,10 +67,10 @@ export const joinRoom = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      result,
       message: `joined the room successfully`,
     });
   } catch (error) {
+    console.error("Error in joinRoom:", error);
     return res.status(error.statusCode || 500).json({
       success: false,
       message: error.message || "Internal server error",
@@ -115,7 +116,7 @@ export const leaveRoom = async (req, res) => {
       message: "Left the room successfully",
     });
   } catch (error) {
-    console.error(error.message);
+    console.error("Error in leaveRoom:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",

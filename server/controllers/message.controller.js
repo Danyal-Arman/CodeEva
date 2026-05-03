@@ -42,6 +42,7 @@ export const createMessage = async (req, res) => {
       newMessage,
     });
   } catch (error) {
+      console.error("Error in createMessage:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -82,6 +83,7 @@ export const getUsersChatMessageByRoom = async (req, res) => {
       messages,
     });
   } catch (error) {
+    console.error("Error in getUsersChatMessageByRoom:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -122,6 +124,7 @@ export const getUserAIChatMessagesByRoom = async (req, res) => {
       messages,
     });
   } catch (error) {
+    console.error("Error in getUserAIChatMessagesByRoom:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -161,6 +164,7 @@ export const getUserAISummarizerMessagesByRoom = async (req, res) => {
       messages,
     });
   } catch (error) {
+    console.error("Error in getUserAISummarizerMessagesByRoom:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",

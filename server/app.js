@@ -15,18 +15,24 @@ app.use(express.json())
 app.use(cookieParser())
 
 dotenv.config()
-connectDB()  
+
+if (process.env.NODE_ENV !== "test") {
+    connectDB();  
+}
 
 app.use(cors({
-    origin: "https://code-eva.vercel.app",
+    origin: "http://localhost:4000",
     credentials: true,  
 }))  
  
-  
+app.get("/health", (req, res) => {
+  res.status(200).json({ message: "Server is healthy" });
+});  
+
 app.use("/auth", authRoute)
 app.use("/user", userRoute)
 app.use("/room", roomRoute)
-app.use("/output",judge0Route)
+app.use("/output",judge0Route) 
 app.use("/file", fileRoute)
 app.use("/ai", aiRoute)
  

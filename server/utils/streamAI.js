@@ -1,9 +1,10 @@
+
 export const streamAI = async ({
   stream,
   socket,
   streamId,
   eventName,
-  endEventName,
+  io,
 }) => {
   const reader = stream.getReader();
   const decoder = new TextDecoder("utf-8");
@@ -39,7 +40,7 @@ export const streamAI = async ({
             });
           }
         } catch (err) {
-          console.log("Skipping invalid JSON chunk");
+          console.error("Error parsing JSON chunk:", err);
         }
       }
     }

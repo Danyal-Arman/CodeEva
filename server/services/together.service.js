@@ -1,6 +1,4 @@
-import axios from "axios";
 import dotenv from "dotenv";
-
 dotenv.config();
 
 export const askGroqAI = async (entireChatMessages) => {
@@ -76,6 +74,6 @@ Make the conversation feel natural, smart, and enjoyable — like ChatGPT.
     return response.body || "No response from Groq AI";
   } catch (error) {
     console.error("Groq AI Error:", error?.response?.data || error.message);
-    throw new Error("Groq AI request failed");
+    throw new Error("Groq AI request failed", { cause: error });
   }
 };
