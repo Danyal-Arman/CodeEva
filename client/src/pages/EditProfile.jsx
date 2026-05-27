@@ -16,6 +16,7 @@ export default function EditProfile() {
   const [isReady, setIsReady] = useState(false);
 
   const handleChange = (e) => {
+    e.preventDefault();
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
