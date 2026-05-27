@@ -5,4 +5,3 @@ export const useAuth = () => {
   return { user, isAuthLoading, setUser, refetchUser };
 };
 
-const a = ;
