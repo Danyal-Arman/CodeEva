@@ -19,11 +19,11 @@ dotenv.config()
 if (process.env.NODE_ENV !== "test") {
     connectDB();  
 }
-
-app.use(cors({
-    origin: "http://localhost:4000",
-    credentials: true,  
-}))  
+  
+app.use(cors({ 
+    origin: "https://code-eva.vercel.app",
+    credentials: true, 
+}))    
  
 app.get("/health", (req, res) => {
   res.status(200).json({ message: "Server is healthy" });

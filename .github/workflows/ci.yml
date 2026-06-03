@@ -7,7 +7,13 @@ on:
 jobs:
   # GitHub creates a virtual machine to run your code.
   build:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
+    
+    env:
+      SECRET_KEY:     ${{ secrets.SECRET_KEY }}
+      SMTP_USER:      ${{ secrets.SMTP_USER }}
+      SMTP_PASS:      ${{ secrets.SMTP_PASS }}
+      SENDER_EMAIL:   ${{ secrets.SENDER_EMAIL }}
 
     steps:
       # 1. Get your code
@@ -46,3 +52,8 @@ jobs:
         run: |
           cd client
           npm run build
+
+
+         # -------------- ENV VARS --------------
+
+        

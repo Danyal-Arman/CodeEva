@@ -7,7 +7,6 @@ import { Hand, Send, User } from "lucide-react";
 import { Bot } from "lucide-react";
 
 import { getSocket } from "../../../../utils/socket";
-import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { githubLight } from "@uiw/codemirror-theme-github";
 import { useTheme } from "../../../../context/ThemeContext";
@@ -357,7 +356,7 @@ const AIPanel = ({ editorRef }) => {
       </div>
 
       {/* Input Area */}
-      <div className="p-3 mb-[5.5rem] border-t dark:border-gray-700 flex  gap-2  w-full lg:max-w-7xl lg:mx-auto">
+      <div className="p-3 mb-[5.5rem] border-t dark:border-gray-700 flex gap-2 w-full lg:max-w-7xl lg:mx-auto">
         {activeTab === "chat" ? (
           <textarea
             type="text"
@@ -371,18 +370,19 @@ const AIPanel = ({ editorRef }) => {
             onChange={(e) => setPrompt(e.target.value)}
           />
         ) : (
-          <CodeMirror
-            value={codeInput}
-            placeholder={"Paste your code and get the summarization..."}
-            height={codeInput.length < 1 ? "40px" : "120px"}
-            width="100vw"
-            theme={currentTheme === "dark" ? vscodeDark : githubLight}
-            extensions={[loadLanguage("javascript") || []]}
-            onChange={(value) => setCodeInput(value)}
-            className="rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden whitespace-normal break-normal "
-          />
+          <>
+            <CodeMirror
+              value={codeInput}
+              placeholder={"Paste your code and get the summarization..."}
+              height={codeInput.length < 1 ? "40px" : "120px"}
+              width="100vw"
+              theme={currentTheme === "dark" ? vscodeDark : githubLight}
+              onChange={(value) => setCodeInput(value)}
+              className="rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden whitespace-normal break-normal "
+            />
+          </>
         )}
-        <div className="h-full flex items-end">
+        <div className="flex flex-col items-end">
           <button
             type="button"
             onClick={

@@ -30,7 +30,7 @@ export const registerUser = async (req, res) => {
     if (user) {
       return res.status(400).json({
         success: false,
-        message: "You already have an account",
+        message: "An account with this email already exists",
       });
     }
 

@@ -38,7 +38,7 @@ const useCollabotiveFiles = ({ fileId, roomId, username }) => {
     return () => {
       socket.off("file-created");
       socket.off("version-created");
-      socket.off("delete-version");
+      socket.off("delete-version");  
     };
   }, [roomId, username, fileId, socket]);
 };

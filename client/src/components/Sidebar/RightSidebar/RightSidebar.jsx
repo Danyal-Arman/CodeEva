@@ -21,34 +21,8 @@ const RightSidebar = (props) => {
     >
       <div
         onMouseDown={() => props.startResize("right")}
-       className="absolute top-0 h-full w-2 hover:bg-zinc-500 cursor-col-resize "/>
-
-      {/* <div className="flex justify-between text-center font-semibold dark:text-white text-black">
-        <button
-          type="button"
-          aria-label="Ask AI"
-          className="border-r px-11 dark:border-gray-700"
-          onClick={() => togglePanel("ai")}
-        >
-          <SparklesIcon className="w-5 h-5" />
-        </button>
-        <button
-          type="button"
-          aria-label="Chat"
-          className="border-r px-11 dark:border-gray-700"
-          onClick={() => togglePanel("chat")}
-        >
-          <MessageSquareMore className="w-5 h-5" />
-        </button>
-        <button
-          type="button"
-          aria-label="Users"
-          className="border-r px-11 dark:border-gray-700"
-          onClick={() => togglePanel("users")}
-        >
-          <Users className="w-5 h-5" />
-        </button>
-      </div> */}
+        className="absolute top-0 h-full w-2 hover:bg-zinc-500 cursor-col-resize "
+      />
 
       <div className="flex-1 overflow-y-auto min-h-0">
         {props.activePanel === "ai" && (
@@ -59,7 +33,10 @@ const RightSidebar = (props) => {
               </>
             }
           >
-            <AIPanel editorRef={props.editorRef} rightWidth={props.rightSidebarWidth}/>
+            <AIPanel
+              editorRef={props.editorRef}
+              rightWidth={props.rightSidebarWidth}
+            />
           </Suspense>
         )}
         {props.activePanel === "chat" && (
@@ -93,7 +70,6 @@ const RightSidebar = (props) => {
           </Suspense>
         )}
       </div>
-
     </div>
   );
 };

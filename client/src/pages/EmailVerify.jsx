@@ -58,7 +58,7 @@ const EmailVerify = () => {
         className="flex flex-col px-5 py-20 md:py-48 lg:py-20 space-y-10 md:space-y-16 absolute w-full top-28 md:top-0"
         onSubmit={onSubmitHandler}
       >
-        <label
+        <label 
           className="text-2xl font-poppins font-semibold text-center"
           htmlFor="Verify Account"
         >

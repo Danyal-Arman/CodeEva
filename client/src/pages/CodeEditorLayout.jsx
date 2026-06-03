@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useCallback, Suspense } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  Suspense,
+} from "react";
 import {
   useCreateVersionMutation,
   useGetFileByIdQuery,
@@ -18,6 +24,7 @@ import {
   Save,
   MessageSquareMore,
   Users,
+  Menu,
 } from "lucide-react";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { skipToken } from "@reduxjs/toolkit/query";
@@ -33,8 +40,6 @@ import { toast } from "react-toastify";
 import { Tooltip } from "../components/Tooltip";
 import WorkSpaceLoader from "../components/Ui/WorkSpaceLoader";
 import Navbar from "../components/Navbar";
-
-
 
 const CodeEditor = React.lazy(() => import("../components/CodeEditor"));
 const RightSidebar = React.lazy(
@@ -65,8 +70,9 @@ const CodeEditorLayout = () => {
   const [messages, setMessages] = useState([]);
   const isSidebarOpen = activePanel !== null;
 
-  const {isRightCollapsed, rightWidth, toggleRight, startResize} = useResizableLayout() 
-
+  const { isRightCollapsed, rightWidth, toggleRight, startResize } =
+    useResizableLayout();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const editorRef = useRef(null);
   const socket = getSocket();
@@ -111,7 +117,6 @@ const CodeEditorLayout = () => {
 
   const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
-
   useEffect(() => {
     if (!socket.connected) {
       socket.connect();
@@ -126,7 +131,6 @@ const CodeEditorLayout = () => {
     }
 
     const handleConnect = () => {
-
       socket.emit("join-room", { roomId, username });
     };
 
@@ -231,10 +235,15 @@ const CodeEditorLayout = () => {
     }
   }, [fileData, isFetching]);
 
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setActivePanel(null);
+    }
+  }, []);
 
-const onReceive = useCallback((msg) => {
-  setMessages((prev) => [...prev, msg]);
-}, []);
+  const onReceive = useCallback((msg) => {
+    setMessages((prev) => [...prev, msg]);
+  }, []);
 
   const { sendMessage } = useChat({
     roomId,
@@ -311,18 +320,39 @@ const onReceive = useCallback((msg) => {
 
   useCollabotiveFiles({ fileId, roomId, username });
 
-  const togglePanel = (panel)=>{
-      setActivePanel((prev)=> prev === panel ? null : panel)
-  }
+  const togglePanel = (panel) => {
+    if (window.innerWidth < 768) {
+      setIsFileSidebarOpen(false);
+      setIsVersionSidebarOpen(false);
+    }
+
+    setActivePanel((prev) => (prev === panel ? null : panel));
+  };
+
+  const openFiles = () => {
+    if (window.innerWidth < 768) {
+      setActivePanel(null);
+    }
+
+    setIsVersionSidebarOpen(false);
+    setIsFileSidebarOpen((prev) => !prev);
+  };
+
+  const openFilesVersion = () => {
+    if (window.innerWidth < 768) {
+      setActivePanel(null);
+    }
+
+    setIsFileSidebarOpen(false);
+    setIsVersionSidebarOpen((prev) => !prev);
+  };
 
   return (
     <div className="relative h-screen w-screen overflow-hidden">
       {/* Loader overlay */}
-      {!isEditorReady && (
-        <WorkSpaceLoader />
-      )}
+      {!isEditorReady && <WorkSpaceLoader />}
       <div className="flex flex-col h-full">
-      <Navbar />
+        <Navbar />
         <div className=" p-2 dark:bg-zinc-900/85 text-white flex justify-between items-center border-b dark:border-gray-500">
           <label htmlFor="language-select" className="sr-only">
             Select programming language
@@ -380,85 +410,187 @@ const onReceive = useCallback((msg) => {
               Run
             </button>
           </div>
-          <div className="space-x-4 flex items-center overflow-visible">
-            <Tooltip text="Create file version">
+          <div className="relative">
+            <div className={`md:hidden`}>
               <button
                 type="button"
-                aria-label="Create file version"
-                onClick={handleCreateVersion}
-                disabled={isLoading}
-                className="bg-zinc-900/20 border border-zinc-700 px-2 py-1 rounded-md flex gap-2 text-sm"
+                aria-label="Open mobile menu"
+                onClick={() => setIsMenuOpen((prev) => !prev)}
+                className="bg-zinc-900/20 border border-zinc-700 p-2 rounded-md"
               >
-                {isLoading && <Loader2 className="animate-spin w-5 h-5 " />}
-                <span>
-                  <Save className="w-7 h-5 text-white" />
-                </span>{" "}
+                <Menu className="w-5 h-5" />
               </button>
-            </Tooltip>
-            <Tooltip text="Share room">
-              <button
-                type="button"
-                aria-label="Share room"
-                onClick={handleShare}
-                className="bg-zinc-900/20 border border-zinc-700 px-2 py-1 rounded-md flex gap-2 text-sm items-center"
-              >
-                <span>
-                  <Share2 className="w-7 h-5 dark:text-white" />
-                </span>
-              </button>
-            </Tooltip>
-            <Tooltip text="Toggle theme">
-              <button
-                type="button"
-                aria-label="Toggle theme"
-                className="dark:hover:bg-zinc-700 hover:bg-slate-800 p-2 rounded-md hover:cursor-pointer"
-                onClick={toggleTheme}
-              >
-                {currentTheme === "dark" ? (
-                  <Sun className="w-5 h-5" />
-                ) : (
-                  <Moon className="w-5 h-5" />
-                )}
-              </button>
-            </Tooltip>
-            <div className="relative flex gap-2">
-              <Tooltip text="Ask AI">
+              {isMenuOpen && (
+                <div className="absolute right-0 mt-2 w-64 rounded-3xl border border-zinc-700 bg-zinc-950/95 p-3 shadow-2xl shadow-black/40 z-50 space-y-2">
+                  <button
+                    type="button"
+                    aria-label="Create file version"
+                    onClick={handleCreateVersion}
+                    disabled={isLoading}
+                    className="w-full rounded-2xl border border-zinc-700 bg-zinc-900/95 px-4 py-3 text-left text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-purple-500/60 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span>Create version</span>
+                      {isLoading ? (
+                        <Loader2 className="animate-spin w-5 h-5" />
+                      ) : (
+                        <Save className="w-5 h-5" />
+                      )}
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Share room"
+                    onClick={handleShare}
+                    className="w-full rounded-2xl border border-zinc-700 bg-zinc-900/95 px-4 py-3 text-left text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-purple-500/60"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span>Share room</span>
+                      <Share2 className="w-5 h-5" />
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Toggle theme"
+                    onClick={toggleTheme}
+                    className="w-full rounded-2xl border border-zinc-700 bg-zinc-900/95 px-4 py-3 text-left text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-purple-500/60"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span>Theme</span>
+                      {currentTheme === "dark" ? (
+                        <Sun className="w-5 h-5" />
+                      ) : (
+                        <Moon className="w-5 h-5" />
+                      )}
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Ask AI"
+                    onClick={() => {
+                      togglePanel("ai");
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full rounded-2xl border border-purple-600 bg-gradient-to-r from-purple-700 to-fuchsia-700 px-4 py-3 text-left text-sm font-semibold text-white shadow-lg shadow-purple-500/20 transition hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-purple-500/60"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span>Ask AI</span>
+                      <SparklesIcon className="w-5 h-5 text-yellow-300" />
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Chat"
+                    onClick={() => {
+                      togglePanel("chat");
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full rounded-2xl border border-zinc-700 bg-zinc-900/95 px-4 py-3 text-left text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-purple-500/60"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span>Chat</span>
+                      <MessageSquareMore className="w-5 h-5" />
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Participants"
+                    onClick={() => {
+                      togglePanel("users");
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full rounded-2xl border border-zinc-700 bg-zinc-900/95 px-4 py-3 text-left text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-purple-500/60"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span>Participants</span>
+                      <div className="relative">
+                        <Users className="w-5 h-5" />
+                        <span className="absolute -top-1 -right-1 text-[10px] bg-purple-700 text-white px-1 rounded-full">
+                          {roomUsers?.length}
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="hidden md:flex space-x-4 items-center overflow-visible">
+              <Tooltip text="Create file version">
                 <button
                   type="button"
-                  aria-label="Ask AI"
-                  onClick={() => togglePanel("ai")}
-                  className="bg-zinc-900/20 border border-zinc-700 px-2 py-1 rounded-md flex gap-2 text-sm items-center"
+                  aria-label="Create file version"
+                  onClick={handleCreateVersion}
+                  disabled={isLoading}
+                  className="bg-zinc-900/20 border border-zinc-700 px-2 py-1 rounded-md flex gap-2 text-sm"
                 >
-                  {" "}
-                  <SparklesIcon className="w-7 h-5 text-yellow-300 fill-yellow-200" />
-                </button>
-              </Tooltip>
-
-              <Tooltip text="Chat">
-                <button
-                  type="button"
-                  aria-label="Chat"
-                  onClick={() => togglePanel("chat")}
-                  className="bg-zinc-900/20 border border-zinc-700 px-2 py-1 rounded-md flex gap-2 text-sm items-center"
-                >
-                  {" "}
-                  <MessageSquareMore className="w-7 h-5" />
-                </button>
-              </Tooltip>
-              <Tooltip text="Participants">
-                <button
-                  type="button"
-                  aria-label="Participants"
-                  onClick={() => togglePanel("users")}
-                  className="relative bg-zinc-900/20 border border-zinc-700 px-2 py-1 rounded-md flex gap-2 text-sm items-center"
-                >
-                  {" "}
-                  <Users className="w-7 h-5" />
-                  <span className="absolute -top-1 -right-1 text-xs bg-purple-700 text-white px-1.5 rounded-full">
-                    {roomUsers?.length}
+                  {isLoading && <Loader2 className="animate-spin w-5 h-5 " />}
+                  <span>
+                    <Save className="w-7 h-5 text-white" />
                   </span>
                 </button>
               </Tooltip>
+              <Tooltip text="Share room">
+                <button
+                  type="button"
+                  aria-label="Share room"
+                  onClick={handleShare}
+                  className="bg-zinc-900/20 border border-zinc-700 px-2 py-1 rounded-md flex gap-2 text-sm items-center"
+                >
+                  <span>
+                    <Share2 className="w-7 h-5 dark:text-white" />
+                  </span>
+                </button>
+              </Tooltip>
+              <Tooltip text="Toggle theme">
+                <button
+                  type="button"
+                  aria-label="Toggle theme"
+                  className="dark:hover:bg-zinc-700 hover:bg-slate-800 p-2 rounded-md hover:cursor-pointer"
+                  onClick={toggleTheme}
+                >
+                  {currentTheme === "dark" ? (
+                    <Sun className="w-5 h-5" />
+                  ) : (
+                    <Moon className="w-5 h-5" />
+                  )}
+                </button>
+              </Tooltip>
+              <div className="relative flex gap-2">
+                <Tooltip text="Ask AI">
+                  <button
+                    type="button"
+                    aria-label="Ask AI"
+                    onClick={() => togglePanel("ai")}
+                    className="bg-zinc-900/20 border border-zinc-700 px-2 py-1 rounded-md flex gap-2 text-sm items-center"
+                  >
+                    <SparklesIcon className="w-7 h-5 text-yellow-300 fill-yellow-200" />
+                  </button>
+                </Tooltip>
+
+                <Tooltip text="Chat">
+                  <button
+                    type="button"
+                    aria-label="Chat"
+                    onClick={() => togglePanel("chat")}
+                    className="bg-zinc-900/20 border border-zinc-700 px-2 py-1 rounded-md flex gap-2 text-sm items-center"
+                  >
+                    <MessageSquareMore className="w-7 h-5" />
+                  </button>
+                </Tooltip>
+                <Tooltip text="Participants">
+                  <button
+                    type="button"
+                    aria-label="Participants"
+                    onClick={() => togglePanel("users")}
+                    className="relative bg-zinc-900/20 border border-zinc-700 px-2 py-1 rounded-md flex gap-2 text-sm items-center"
+                  >
+                    <Users className="w-7 h-5" />
+                    <span className="absolute -top-1 -right-1 text-xs bg-purple-700 text-white px-1.5 rounded-full">
+                      {roomUsers?.length}
+                    </span>
+                  </button>
+                </Tooltip>
+              </div>
             </div>
           </div>
         </div>
@@ -471,6 +603,8 @@ const onReceive = useCallback((msg) => {
                 setIsFileSidbarOpen={setIsFileSidebarOpen}
                 isVersionSidebarOpen={isVersionSidebarOpen}
                 setIsVersionSidebarOpen={setIsVersionSidebarOpen}
+                openFiles={openFiles}
+                openFilesVersion={openFilesVersion}
               />
             </Suspense>
             <Suspense fallback={<div className="w-full h-full bg-zinc-900" />}>
