@@ -3,25 +3,28 @@ import { Room } from "../models/room.model.js";
 
 export const create = async (req, res) => {
   try {
-    const { name, type, parent, language, content, room } = req.body;
+    const { name, type, parent, language, content } = req.body;
+    const {roomId} = req.params;
 
-    if (!room) {
+   
+    const findRoom = await Room.findOne({ roomId: roomId }).lean();
+     if (!findRoom) {
       return res
         .status(404)
-        .json({ message: "No room Found, to create file or folder" });
+        .json({ message: "No room Found" });
     }
-    if (!name) {
+     if (!name) {
       return res
         .status(404)
         .json({ message: "File or Folder name is required" });
     }
-    const findRoom = await Room.findById(room);
-    const roomId = findRoom?.roomId;
+
+    const id = findRoom?._id;
 
     const newFile = new File({
       name, 
       type,
-      room,
+      room: id,
       parent: parent || null,
       language: language || null,
       content: content || (type === "file" ? "" : null),

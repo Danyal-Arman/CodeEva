@@ -35,6 +35,7 @@ import useResizableLayout from "../utils/useResizableLayout";
 import axios from "axios";
 import { getSocket } from "../utils/socket";
 import { useUserBasic } from "../hooks/useUserBasic";
+import { useYjsEditor } from "../hooks/useYjsEditor";
 import { useAuth } from "../hooks/useAuth";
 import { toast } from "react-toastify";
 import { Tooltip } from "../components/Tooltip";
@@ -114,6 +115,7 @@ const CodeEditorLayout = () => {
   const handleCreateVersion = async () => {
     await createVersion({ roomId, fileId, content: currentCode });
   };
+  // const { provider, ydoc, ytext } = useYjsEditor(roomId);
 
   const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
@@ -346,6 +348,8 @@ const CodeEditorLayout = () => {
     setIsFileSidebarOpen(false);
     setIsVersionSidebarOpen((prev) => !prev);
   };
+
+
 
   return (
     <div className="relative h-screen w-screen overflow-hidden">
