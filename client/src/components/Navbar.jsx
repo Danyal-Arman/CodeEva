@@ -7,7 +7,7 @@ import ProfileMenu from "./ProfileMenu";
 
 // import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
-// import GradientButton from "./GradientButton";
+import GradientButton from "./GradientButton";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -80,9 +80,9 @@ const Navbar = () => {
                 </Link>
 
                 <Link to="/register">
-                  {/* <GradientButton> */}
+                  <GradientButton>
                     Get Started
-                  {/* </GradientButton> */}
+                  </GradientButton>
                 </Link>
               </div>
 

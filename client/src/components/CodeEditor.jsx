@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, lazy, Suspense } from "react";
-import { useTheme } from "../context/ThemeContext";
+import { useEditorTheme } from "../context/EditorThemeContext";
 import useCollaborativeCode from "../utils/collaborativeCode";
 import TerminalPanel from "./TerminalPanel";
 import { cursorStyle } from "../utils/userCursors";
@@ -28,7 +28,7 @@ const CodeEditor = ({
   isVersionSidebarOpen,
   rightWidth,
 }) => {
-  const { currentTheme } = useTheme();
+  const { editorTheme } = useEditorTheme();
   const { fileId } = useParams();
 
   const isRemoteUpdate = useRef(false);
@@ -259,7 +259,7 @@ console.log(
           language={currentLanguage}
           onChange={handleEditorChange}
           onMount={handleEditorDidMount}
-          theme={currentTheme === "dark" ? "vs-dark" : "vs-light"}
+          theme={editorTheme === "dark" ? "vs-dark" : "vs-light"}
           loading={<div>Loading...</div>}
           options={{
             padding: {

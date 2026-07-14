@@ -4,6 +4,7 @@ import { userLoggedIn } from "../authSlice";
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000"
 
 const AUTH_API = `${BASE_URL}/auth/`;
+console.log("AUTH_API", AUTH_API);
 
 const authApi = createApi({
   reducerPath: "authApi",

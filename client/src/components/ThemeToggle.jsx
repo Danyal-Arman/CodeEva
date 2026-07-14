@@ -1,5 +1,5 @@
 import { Monitor, Moon, Sun } from "lucide-react";
-// import { useTheme } from "@/lib/theme";
+import { useAppearance } from "../lib/appearance.jsx";
 
 const options = [
   {
@@ -20,7 +20,7 @@ const options = [
 ];
 
 const ThemeToggle = () => {
-//   const { mode, setMode } = useTheme();
+  const { mode, setMode } = useAppearance();
 
   return (
     <div
@@ -29,7 +29,7 @@ const ThemeToggle = () => {
       className="glass relative hidden items-center gap-0.5 rounded-full p-0.5 sm:inline-flex"
     >
       {options.map(({ value, label, Icon }) => {
-        const active = value;
+        const active = mode === value;
 
         return (
           <button
@@ -38,7 +38,7 @@ const ThemeToggle = () => {
             aria-checked={active}
             aria-label={label}
             title={label}
-            // onClick={() => setMode(value)}
+            onClick={() => setMode(value)}
             className={`relative grid h-7 w-7 place-items-center rounded-full transition-colors duration-200 ${
               active
                 ? "bg-violet text-white shadow-[0_0_14px_var(--emerald-glow)]"
