@@ -5,7 +5,7 @@ import { getSocket } from "./socket"; // 💡 Use dynamic socket getter
 const useCollaborativeCode = ({
   roomId,
   username,
-  // onIncomingCodeUpdate,
+  onIncomingCodeUpdate,
   getCurrentCode,
   editorRef,
   fileId,
@@ -135,7 +135,7 @@ const useCollaborativeCode = ({
 
       const current = getCurrentCode?.();
       if (current === code) return;
-      // onIncomingCodeUpdate?.({ newCode: code, position, username, fileId });
+      onIncomingCodeUpdate?.({ newCode: code, position, username, fileId });
     };
 
     const handleSyncCodeRequest = ({ socketId }) => {
@@ -148,11 +148,11 @@ const useCollaborativeCode = ({
 
     const handleInitialCode = ({ code, from }) => {
       if (code) {
-        // onIncomingCodeUpdate?.({
-        //   newCode: code,
-        //   position: null,
-        //   username: from,
-        // });
+        onIncomingCodeUpdate?.({
+          newCode: code,
+          position: null,
+          username: from,
+        });
       }
     };
 

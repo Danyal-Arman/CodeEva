@@ -9,16 +9,16 @@ dotenv.config();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://code-eva.vercel.app",
     credentials: true,
   },
 });
 app.set("io", io);
 
-socketAuth(io); 
+socketAuth(io);
 initSocket(io);
 
-const port = process.env.PORT || 4000; 
+const port = process.env.PORT || 4000;
 
 server.listen(port, () => {
   console.log(`This is port  ${port}`);

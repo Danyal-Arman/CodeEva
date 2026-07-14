@@ -5,7 +5,7 @@ import { createVersion, deleteFileByVersionNumber, getAllFileVersionsById, resto
 
 const router = express.Router()
 
-router.post('/create/:roomId', create)
+router.post('/create/:roomId', isAuthenticated, create)
 router.get('/get-files/:roomId', isAuthenticated, getFilesByRoom) 
 router.get('/get-files/:roomId/:fileId', isAuthenticated, getFileById) 
 router.patch('/edit', isAuthenticated, editFilesOrFolder) 

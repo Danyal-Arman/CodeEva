@@ -6,13 +6,8 @@ import {
   useCreateFileAndFolderMutation,
   useGetFilesQuery,
 } from "../../../features/api/fileApi";
-
-
 import FileTree from "./FileTree";
 import buildFileTree from "../../../utils/buildFileTree.js";
-
-
-
 
 const FileSidebar = ({ isFileSidebarOpen }) => {
   const [inputType, setInputType] = useState(null);
@@ -37,6 +32,7 @@ const FileSidebar = ({ isFileSidebarOpen }) => {
       createFileAndFolder({
         name: inputName,
         type: inputType,
+        room: id,
       });
       setInputType(null);
       setInputName("");
