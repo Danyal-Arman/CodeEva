@@ -7,7 +7,6 @@ export const cursorStyle = (username, color) => {
   if (document.querySelector(`style[data-user="${safeUsername}"]`)) return;
 
   const style = document.createElement("style");
-  style.dataset.user = safeUsername;
   style.innerHTML = `
     .${className} {
       position: relative;

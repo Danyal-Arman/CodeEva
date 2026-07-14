@@ -15,13 +15,13 @@ app.use(express.json())
 app.use(cookieParser())
 
 dotenv.config()
- 
+
 if (process.env.NODE_ENV !== "test") {
     connectDB();  
 }
-   
+  
 app.use(cors({ 
-    origin: "http://localhost:5175",
+    origin: "https://code-eva.vercel.app",
     credentials: true, 
 }))    
  
@@ -34,6 +34,6 @@ app.use("/user", userRoute)
 app.use("/room", roomRoute)
 app.use("/output",judge0Route) 
 app.use("/file", fileRoute)
-app.use("/ai", aiRoute) 
+app.use("/ai", aiRoute)
  
-export default app             
+export default app      

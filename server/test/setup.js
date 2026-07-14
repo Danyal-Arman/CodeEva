@@ -1,14 +1,5 @@
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { jest } from "@jest/globals";
-import app from "../app.js";
-
-process.env.NODE_ENV = "test";
-process.env.SECRET_KEY = process.env.SECRET_KEY || "test-secret";
-
-app.set("io", {
-  to: () => ({ emit: jest.fn() }),
-});
 
 let mongoServer;
 
