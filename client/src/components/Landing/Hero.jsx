@@ -54,10 +54,8 @@ import GradientButton from "../GradientButton";
 import GhostButton from "../GhostButton";
 import ProductPreview from "./ProductPreview";
 
-import { useUserBasic } from "../../hooks/useUserBasic";
 
 const Hero = () => {
-  const { isLoggedIn } = useUserBasic();
    const [roomId, setRoomId] = useState("");
 
   const navigate = useNavigate();
@@ -77,9 +75,8 @@ const Hero = () => {
     const result = await createRoom();
     if (result?.data) {
       const id = result?.data?.room?.roomId;
-      const name = result?.data?.room?.createdBy?.username;
+      // const name = result?.data?.room?.createdBy?.username;
       setRoomId(id);
-      // setUsername(name);
     }
   };
 

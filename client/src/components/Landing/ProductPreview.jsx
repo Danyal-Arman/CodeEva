@@ -13,9 +13,9 @@ import {
   Play,
 } from "lucide-react";
 
-import AvatarStack from "../ui/AvatarStack";
-import CodeBlock from "../ui/CodeBlock";
-import ChatMsg from "../ui/ChatMsg";
+import AvatarStack from "../Ui/AvatarStack";
+import CodeBlock from "../Ui/CodeBlock";
+import ChatMsg from "../Ui/ChatMsg";
 
 const ProductPreview = () => {
   const files = [
