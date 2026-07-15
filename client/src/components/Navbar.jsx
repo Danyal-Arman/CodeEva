@@ -1,111 +1,152 @@
 import React, { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Github, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import ProfileMenu from "./ProfileMenu";
+
 import { useUserBasic } from "../hooks/useUserBasic";
+import ProfileMenu from "./ProfileMenu";
+
+// import Logo from "./Logo";
+import ThemeToggle from "./ThemeToggle";
+import GradientButton from "./GradientButton";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const { isLoggedIn } = useUserBasic();
+
   const location = useLocation();
 
   const isHome = location.pathname === "/";
 
   return (
-    <nav
-      className={`w-full z-50 ${isHome ? "bg-background/10 backdrop-blur-sm py-2 fixed top-0 right-0" : "bg-zinc-800 h-10 static top-0 right-0"}`}
-    >
-      <div className="w-full h-full mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <div className="flex-shrink">
-          <h1 className="text-2xl font-poppins font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-500 to-blue-400">
-            <Link to="/"> &lt;CodeEva/&gt; </Link>
-          </h1>
+    <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4">
+      <nav className="glass-strong flex w-full max-w-6xl items-center justify-between rounded-2xl px-4 py-2.5 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.5)]">
+        {/* Logo */}
+
+        <Link to="/" className="flex items-center gap-2 pl-2">
+          {/* <Logo /> */}
+          <span className="text-[15px] font-semibold tracking-tight">
+            CodeEva
+          </span>
+        </Link>
+
+        {/* Desktop Navigation */}
+
+        <div className="hidden items-center gap-1 md:flex">
+          <Link
+            to="/"
+            className="rounded-lg px-3 py-1.5 text-[13.5px] text-muted-foreground transition hover:bg-white/[0.04] hover:text-foreground"
+          >
+            Home
+          </Link>
+
+          <a
+            href="#features"
+            className="rounded-lg px-3 py-1.5 text-[13.5px] text-muted-foreground transition hover:bg-white/[0.04] hover:text-foreground"
+          >
+            Features
+          </a>
+
+          <a
+            href="#docs"
+            className="rounded-lg px-3 py-1.5 text-[13.5px] text-muted-foreground transition hover:bg-white/[0.04] hover:text-foreground"
+          >
+            Docs
+          </a>
         </div>
-        {!isLoggedIn ? (
-          <>
-            <div className="hidden md:block">
-              <div className="flex items-center space-x-3">
-                <Link
-                  to="/login"
-                  className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Sign In
+
+        {/* Right Side */}
+
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+
+          <a
+            href="https://github.com/Danyal-Arman/CodeEva"
+            target="_blank"
+            rel="noreferrer"
+            className="hidden items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13.5px] text-muted-foreground transition hover:bg-white/[0.04] hover:text-foreground sm:flex"
+          >
+            <Github className="h-4 w-4" />
+            <span>GitHub</span>
+          </a>
+
+          {!isLoggedIn ? (
+            <>
+              <div className="hidden sm:flex items-center gap-2">
+                <Link to="/login">
+                  <button className="rounded-lg px-4 py-2 text-sm transition hover:bg-white/5">
+                    Sign In
+                  </button>
                 </Link>
-                <Link
-                  to="/register"
-                  className="btn-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  Sign Up
+
+                <Link to="/register">
+                  <GradientButton>
+                    Get Started
+                  </GradientButton>
                 </Link>
               </div>
-            </div>
-            <div className="md:hidden flex items-center">
-              <button
-                type="button"
-                aria-label="Toggle menu"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
-                aria-expanded="false"
-              >
-                <span className="sr-only">Open main menu</span>
-                {isMenuOpen ? (
-                  <X className="block h-6 w-6" aria-hidden="true" />
-                ) : (
-                  <Menu className="block h-6 w-6" aria-hidden="true" />
-                )}
-              </button>
-            </div>{" "}
-          </>
-        ) : (
-          <ProfileMenu isHome={isHome} />
-        )}
-      </div>
 
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-background-dark animate-fade-in">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a
-              href="/"
-              className="nav-link-active block px-3 py-2 rounded-md text-base font-medium"
+              {/* Mobile Menu Button */}
+
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="sm:hidden rounded-lg p-2 hover:bg-white/5"
+              >
+                {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </>
+          ) : (
+            <ProfileMenu isHome={isHome} />
+          )}
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+
+      {isMenuOpen && !isLoggedIn && (
+        <div className="absolute top-full mt-3 w-[calc(100%-2rem)] max-w-6xl rounded-2xl glass-strong p-4 sm:hidden">
+          <div className="flex flex-col gap-2">
+            <Link
+              to="/"
+              onClick={() => setIsMenuOpen(false)}
+              className="rounded-lg px-3 py-2 hover:bg-white/5"
             >
               Home
-            </a>
+            </Link>
+
             <a
-              href="/"
-              className="nav-link block px-3 py-2 rounded-md text-base font-medium"
+              href="#features"
+              onClick={() => setIsMenuOpen(false)}
+              className="rounded-lg px-3 py-2 hover:bg-white/5"
             >
               Features
             </a>
+
             <a
-              href="/"
-              className="nav-link block px-3 py-2 rounded-md text-base font-medium"
+              href="#docs"
+              onClick={() => setIsMenuOpen(false)}
+              className="rounded-lg px-3 py-2 hover:bg-white/5"
             >
               Docs
             </a>
-          </div>
-          <div className="pt-4 pb-3 border-t border-gray-700">
-            <div className="flex items-center px-5">
-              <div className="flex-shrink-0"></div>
-              <div className="ml-3 space-y-2">
-                <Link
-                  to="/login"
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium nav-link"
-                >
+
+            <div className="mt-3 border-t border-white/10 pt-3 flex flex-col gap-2">
+              <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                <button className="w-full rounded-lg px-4 py-2 hover:bg-white/5">
                   Sign In
-                </Link>
-                <Link
-                  to="/register"
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium bg-primary text-white"
-                >
-                  Sign Up
-                </Link>
-              </div>
+                </button>
+              </Link>
+
+              <Link to="/register" onClick={() => setIsMenuOpen(false)}>
+                <GradientButton className="w-full">
+                  Get Started
+                </GradientButton>
+              </Link>
             </div>
           </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 };
 

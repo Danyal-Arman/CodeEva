@@ -1,5 +1,5 @@
-import React, { useRef, useCallback, lazy, Suspense } from "react";
-import { useTheme } from "../context/ThemeContext";
+import React, { useRef, useEffect, lazy, Suspense, useCallback } from "react";
+import { useEditorTheme } from "../context/EditorThemeContext";
 import useCollaborativeCode from "../utils/collaborativeCode";
 import TerminalPanel from "./TerminalPanel";
 import { cursorStyle } from "../utils/userCursors";
@@ -28,7 +28,7 @@ const CodeEditor = ({
   isVersionSidebarOpen,
   rightWidth,
 }) => {
-  const { currentTheme } = useTheme();
+  const { editorTheme } = useEditorTheme();
   const { fileId } = useParams();
 
   const isRemoteUpdate = useRef(false);
@@ -158,22 +158,21 @@ const CodeEditor = ({
 
   return (
     <>
-    <Suspense fallback={<div>Loading...</div>}>
-      <Editor
-        height="100vh"
-        language={currentLanguage}
-        value={currentCode}
-        onChange={handleEditorChange}
-        onMount={handleEditorDidMount}
-        theme={currentTheme === "dark" ? "vs-dark" : "vs-light"}
-        loading={<div>Loading...</div>}
-        options={{
-          padding: {
-            top: 20,
-          },
-        }}
-      />
-    </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Editor
+          height="100vh"
+          language={currentLanguage}
+          onChange={handleEditorChange}
+          onMount={handleEditorDidMount}
+          theme={editorTheme === "dark" ? "vs-dark" : "vs-light"}
+          loading={<div>Loading...</div>}
+          options={{
+            padding: {
+              top: 20,
+            },
+          }}
+        />
+      </Suspense>
 
       <TerminalPanel
         isTerminalOpen={isTerminalOpen}

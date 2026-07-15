@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { useTheme } from "../context/ThemeContext";
+import { useEditorTheme } from "../context/EditorThemeContext";
 import useCollabotiveFiles from "../utils/collaborativeFiles";
 import useChat from "../utils/useChat";
 import useResizableLayout from "../utils/useResizableLayout";
@@ -65,7 +65,7 @@ const CodeEditorLayout = () => {
 
   const [isEditorReady, setIsEditorReady] = useState(false);
   const [languageId, setLanguageId] = useState(63);
-  const { currentTheme, toggleTheme } = useTheme();
+  const { editorTheme, toggleTheme } = useEditorTheme();
   const [roomUsers, setRoomUsers] = useState([]);
   const [messages, setMessages] = useState([]);
   const isSidebarOpen = activePanel !== null;
@@ -457,7 +457,7 @@ const CodeEditorLayout = () => {
                   >
                     <div className="flex items-center justify-between gap-3">
                       <span>Theme</span>
-                      {currentTheme === "dark" ? (
+                      {editorTheme === "dark" ? (
                         <Sun className="w-5 h-5" />
                       ) : (
                         <Moon className="w-5 h-5" />
@@ -548,7 +548,7 @@ const CodeEditorLayout = () => {
                   className="dark:hover:bg-zinc-700 hover:bg-slate-800 p-2 rounded-md hover:cursor-pointer"
                   onClick={toggleTheme}
                 >
-                  {currentTheme === "dark" ? (
+                  {editorTheme === "dark" ? (
                     <Sun className="w-5 h-5" />
                   ) : (
                     <Moon className="w-5 h-5" />

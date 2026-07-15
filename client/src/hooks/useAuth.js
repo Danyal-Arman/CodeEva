@@ -1,7 +1,7 @@
-import { useAuthContext } from "../context/AuthContext";
+import { UseAuthContext } from "../context/AuthContext";
 
 export const useAuth = () => {
-  const { user, isAuthLoading, setUser, refetchUser } = useAuthContext();
+  const { user, isAuthLoading, setUser, refetchUser } = UseAuthContext();
   return { user, isAuthLoading, setUser, refetchUser };
 };
 

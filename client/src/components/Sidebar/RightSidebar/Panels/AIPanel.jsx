@@ -9,7 +9,7 @@ import { Bot } from "lucide-react";
 import { getSocket } from "../../../../utils/socket";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { githubLight } from "@uiw/codemirror-theme-github";
-import { useTheme } from "../../../../context/ThemeContext";
+import { useEditorTheme } from "../../../../context/EditorThemeContext";
 import { useParams } from "react-router-dom";
 import {
   useGetAIChatMessagesByRoomQuery,
@@ -26,7 +26,7 @@ const AIPanel = ({ editorRef }) => {
   const [summarizerMessages, setsummarizerMessages] = useState([]);
   const [prompt, setPrompt] = useState(""); // used for chat
   const [codeInput, setCodeInput] = useState(""); // used for summarizer
-  const { currentTheme } = useTheme();
+  const { editorTheme } = useEditorTheme();
   const [streamingText, setStreamingText] = useState("");
   const [summarizerStreamingText, setSummarizerStreamingText] = useState("");
   const [collapsedMessages, setCollapsedMessages] = useState({});
@@ -376,7 +376,7 @@ const AIPanel = ({ editorRef }) => {
               placeholder={"Paste your code and get the summarization..."}
               height={codeInput.length < 1 ? "40px" : "120px"}
               width="100vw"
-              theme={currentTheme === "dark" ? vscodeDark : githubLight}
+              theme={editorTheme === "dark" ? vscodeDark : githubLight}
               onChange={(value) => setCodeInput(value)}
               className="rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden whitespace-normal break-normal "
             />
